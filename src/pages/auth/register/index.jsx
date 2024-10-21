@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import logo from "../../../assets/logo.svg";
 import handshake from "../../../assets/handshake.svg";
 import { Input } from '@/components/ui/input';
@@ -6,6 +6,8 @@ import { Button } from '@/components/ui/button';
 import { Form, Formik } from 'formik';
 import { registerSchema } from '@/schema';
 import { Link } from 'react-router-dom';
+import { useRegisterMutation } from '@/services/auth';
+import { toast } from 'sonner';
 
 const Register = () => {
   const initialValues = {
@@ -14,9 +16,25 @@ const Register = () => {
     conPassword: ""
   }
 
+  const [register, { isError, isLoading, isSuccess, data, error }] = useRegisterMutation()
+
   const SubmitHandler = (values) => {
-    console.log(values)
+    register({ email: values?.email, password: values?.password })
   }
+
+  useEffect(() => {
+    if (isSuccess) {
+      console.log(data?.message)
+      toast.success(data?.message)
+    }
+  }, [isSuccess])
+
+  useEffect(() => {
+    if (isError && error) {
+      console.log(error?.data?.message);
+      toast.error(error?.data?.message ? error?.data?.message : "Something went wrong")
+    }
+  }, [isError])
   return (
     <div className='min-h-screen flex flex-col md:flex-row'>
       <div className='bg-[#222227] w-screen md:w-[40vw] lg:w-[30%] flex flex-col justify-center items-center'>
@@ -34,8 +52,18 @@ const Register = () => {
           onSubmit={SubmitHandler}
           validationSchema={registerSchema}
         >
-          {({ values, handleChange, handleBlur, errors, touched }) => (
-            <Form style={{ width: "100%", display: "flex", justifyContent: "center", alignItems: "center", rowGap: "1.25rem", flexDirection: "column" }}>
+          {({ values, handleChange, handleBlur, errors, touched, handleSubmit }) => (
+            <Form
+              onSubmit={handleSubmit}  // Ensure Formik handles the submit
+              style={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                rowGap: "1.25rem",
+                flexDirection: "column"
+              }}
+            >
               <div className='w-[96%] md:w-[60%] 2xl:w-[40%]'>
                 <Input
                   error={touched.email && errors.email}
@@ -73,13 +101,17 @@ const Register = () => {
                 />
               </div>
               <div className='w-[96%] md:w-[60%] 2xl:w-[40%]'>
-                <Button className={"w-full h-[72px] text-base bg-[#222227]"} onClick={SubmitHandler}>
+                <Button
+                  type="submit"  // Ensure this button is a submit button
+                  className={"w-full h-[72px] text-base bg-[#222227]"}
+                >
                   Register My Account
                 </Button>
               </div>
             </Form>
           )}
         </Formik>
+
         <div className='w-[96%] md:w-[60%] 2xl:w-[40%] flex justify-start lg:justify-end'>
           <p className='tex-[#424242] text-sm'>Already a Member? <span className='font-semibold text-md text-[#212121]'><Link to={"/login"}>LOG IN NOW</Link></span></p>
         </div>

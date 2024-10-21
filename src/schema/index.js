@@ -8,7 +8,7 @@ export const registerSchema = Yup.object({
   password: Yup.string()
     .required('Password is required')
     .min(5, "Password must contain at least 5 characters")
-    .matches(/^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{5,}$/, 
+    .matches(/^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{5,}$/, 
       "Password must contain at least one uppercase letter, one number, and one special character"),
   
   conPassword: Yup.string()
@@ -24,6 +24,4 @@ export const loginSchema = Yup.object({
   password: Yup.string()
     .required('Password is required')
     .min(5, "Password must contain at least 5 characters")
-    .matches(/^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{5,}$/, 
-      "Password must contain at least one uppercase letter, one number, and one special character"),
 });

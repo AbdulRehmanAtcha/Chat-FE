@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import handshake from "../../../assets/handshake.svg";
 import logo from "../../../assets/logo.svg";
 import { Form, Formik } from 'formik';
@@ -6,16 +6,36 @@ import { loginSchema } from '@/schema';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
+import { useLoginMutation } from '@/services/auth';
+import { toast } from 'sonner';
+import { useDispatch } from 'react-redux';
+import { loginHandler } from '@/lib/store/slices/auth';
 
 
 const Login = () => {
+    const [login, { isError, isLoading, isSuccess, error, data }] = useLoginMutation()
+    const dispatch = useDispatch();
     const initialValues = {
         email: "",
         password: ""
     }
     const SubmitHandler = (values) => {
-        console.log(values)
+        login({ email: values.email, password: values.password });
     }
+
+    useEffect(() => {
+        if (isSuccess) {
+            dispatch(loginHandler(data?.data))
+            toast.success(data?.message)
+            localStorage.setItem("token", data?.data?.token)
+        }
+    }, [isSuccess])
+
+    useEffect(() => {
+        if (isError && error) {
+            toast.error(error?.data?.message ? error?.data?.message : "Something went wrong")
+        }
+    }, [isError])
     return (
         <div className='min-h-screen flex flex-col md:flex-row'>
             <div className='bg-[#222227] w-screen md:w-[40vw] lg:w-[30%] flex flex-col justify-center items-center'>
@@ -60,7 +80,7 @@ const Login = () => {
                                 />
                             </div>
                             <div className='w-[96%] md:w-[60%] 2xl:w-[40%]'>
-                                <Button className={"w-full h-[72px] text-base bg-[#222227]"} onClick={SubmitHandler}>
+                                <Button type="submit" className={"w-full h-[72px] text-base bg-[#222227]"}>
                                     Proceed to my Account
                                 </Button>
                             </div>
