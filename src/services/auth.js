@@ -25,9 +25,15 @@ export const authApi = api.injectEndpoints({
                     body: { email, password }
                 })
             }
-        })
+        }),
+        verify: builder.mutation({
+            query: () => ({
+                url: '/auth/verify',
+                method: 'GET',
+            }),
+        }),
     })
 })
 
 
-export const { useRegisterMutation, useLoginMutation } = authApi
+export const { useRegisterMutation, useLoginMutation, useVerifyMutation } = authApi

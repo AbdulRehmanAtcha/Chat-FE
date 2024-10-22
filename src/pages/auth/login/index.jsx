@@ -5,7 +5,7 @@ import { Form, Formik } from 'formik';
 import { loginSchema } from '@/schema';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useLoginMutation } from '@/services/auth';
 import { toast } from 'sonner';
 import { useDispatch } from 'react-redux';
@@ -22,12 +22,23 @@ const Login = () => {
     const SubmitHandler = (values) => {
         login({ email: values.email, password: values.password });
     }
+    const navigate = useNavigate()
 
     useEffect(() => {
         if (isSuccess) {
             dispatch(loginHandler(data?.data))
             toast.success(data?.message)
             localStorage.setItem("token", data?.data?.token)
+            console.log(data?.data?.userResponse)
+
+            if (data?.data?.userResponse) {
+                if (data?.data?.userResponse?.profileSetup === false) {
+                    navigate("/profile")
+                }
+                else if (data?.data?.userResponse?.profileSetup === true) {
+                    navigate("/chat")
+                }
+            }
         }
     }, [isSuccess])
 

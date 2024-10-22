@@ -11,7 +11,6 @@ const slice = createSlice({
   reducers: {
     loginHandler: (state, action) => {
       state.isLogin = true;
-      console.log(action.payload)
       state.user = action.payload.userResponse
       // state.user = action?.payload?.data
       //   ? action?.payload?.data

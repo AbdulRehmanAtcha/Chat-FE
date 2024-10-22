@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Form, Formik } from 'formik';
 import { registerSchema } from '@/schema';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useRegisterMutation } from '@/services/auth';
 import { toast } from 'sonner';
 
@@ -15,6 +15,8 @@ const Register = () => {
     password: "",
     conPassword: ""
   }
+
+  const navigate = useNavigate();
 
   const [register, { isError, isLoading, isSuccess, data, error }] = useRegisterMutation()
 
@@ -26,6 +28,7 @@ const Register = () => {
     if (isSuccess) {
       console.log(data?.message)
       toast.success(data?.message)
+      navigate("/login")
     }
   }, [isSuccess])
 
