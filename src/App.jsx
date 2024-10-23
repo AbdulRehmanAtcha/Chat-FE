@@ -44,10 +44,11 @@ function App() {
         .unwrap()
         .then((data) => {
           dispatch(loginHandler(data?.data))
-          setLoading(false);
         }).catch(() => {
           localStorage.removeItem('token');
+        }).finally(() => {
           setLoading(false);
+
         });
     }
   }, [user, verifyToken, dispatch]);
