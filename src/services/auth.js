@@ -32,8 +32,28 @@ export const authApi = api.injectEndpoints({
                 method: 'GET',
             }),
         }),
+        updateProfile: builder.mutation({
+            query: ({ firstName, lastName, color }) => {
+                return ({
+                    url: "/auth/update-profile",
+                    method: "PUT",
+                    body: { firstName, lastName, color }
+                })
+            }
+        }),
+        updatePicture: builder.mutation({
+            query: ({ image }) => {
+                const formData = new FormData();
+                formData.append("profileImage", image)
+                return ({
+                    url: "/update-picture",
+                    method: "PUT",
+                    body: formData
+                })
+            }
+        })
     })
 })
 
 
-export const { useRegisterMutation, useLoginMutation, useVerifyMutation } = authApi
+export const { useRegisterMutation, useLoginMutation, useVerifyMutation, useUpdateProfileMutation, useUpdatePictureMutation } = authApi

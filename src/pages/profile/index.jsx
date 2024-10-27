@@ -1,39 +1,84 @@
 import { Avatar } from '@/components/ui/avatar';
 import { colors, getColor } from '@/lib/utils';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { IoArrowBack } from "react-icons/io5";
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { FaTrash, FaPlus } from "react-icons/fa";
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useFormik } from 'formik';
 import { profileSchema } from '@/schema';
+import { useUpdatePictureMutation, useUpdateProfileMutation } from '@/services/auth';
+import { toast } from 'sonner';
+import { loginHandler } from '@/lib/store/slices/auth';
+import { useNavigate } from 'react-router-dom';
 
 const Profile = () => {
   const { isLogin, user } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [hovered, setHovered] = useState(false);
   const [image, setImage] = useState(null);
-  const [selectedColor, setSelectedColor] = useState(0);
+  const [selectedColor, setSelectedColor] = useState(user?.color || 0);
+  const fileInputRef = useRef(null)
 
   const initialValues = {
     firstName: user?.firstName || "",
     lastName: user?.lastName || "",
-    color: 0
+    color: user?.color || 0
   };
+
+  const [profile, { isSuccess, isError, error, isLoading, data }] = useUpdateProfileMutation()
+  const [imageUpdate, { }] = useUpdatePictureMutation()
 
   const formik = useFormik({
     initialValues: initialValues,
     validationSchema: profileSchema,
     onSubmit: (values) => {
-      console.log(values);
+      profile(values)
     }
   });
+
+  useEffect(() => {
+    if (isSuccess) {
+      dispatch(loginHandler(data?.data?.userResponse));
+      toast.success(data?.message);
+    }
+  }, [isSuccess, dispatch, data]);
+
+  useEffect(() => {
+    if (isError) {
+      toast.error(error?.data?.message)
+    }
+  }, [isError])
+
+  const HandleNavigate = () => {
+    if (user?.profileSetup) {
+      navigate("/chat")
+    }
+    else {
+      toast.warning("Please complete profile setup first");
+    }
+  }
+
+  const HandleFileInputClick = () => {
+    fileInputRef.current.click();
+  }
+
+  const HandleImageChange = async (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      await imageUpdate({ image: file });
+    }
+  };
+  
+  const HandleDeleteImage = async () => { }
 
   return (
     <div className='bg-[#1b1c24] h-[100vh] flex justify-center items-center flex-col gap-10'>
       <form className='flex flex-col gap-10 w-[80vw] md:w-max' onSubmit={formik.handleSubmit}>
         <div>
-          <IoArrowBack className='text-4xl lg:text-6xl text-white cursor-pointer' />
+          <IoArrowBack className='text-4xl lg:text-6xl text-white cursor-pointer' onClick={HandleNavigate} />
         </div>
         <div className='grid grid-cols-2'>
           <div className='h-full w-32 md:w-48 md:h-48 relative flex justify-center items-center'
@@ -53,11 +98,14 @@ const Profile = () => {
             </Avatar>
             {
               hovered && (
-                <div className='absolute inset-0 flex items-center justify-center bg-black/50 rounded-full cursor-pointer ring-fuchsia-50 transition-all'>
+                <div className='absolute inset-0 flex items-center justify-center bg-black/50 rounded-full cursor-pointer ring-fuchsia-50 transition-all'
+                  onClick={image ? HandleDeleteImage : HandleFileInputClick}
+                >
                   {image ? <FaTrash className='text-3xl text-white cursor-pointer' /> : <FaPlus className='text-3xl text-white cursor-pointer' />}
                 </div>
               )
             }
+            <input ref={fileInputRef} type="file" className='hidden' onChange={HandleImageChange} name='profileImage' accept='.png, .jpg, .jpeg, .svg, .webp' />
           </div>
           <div className='flex min-w-32 md:min-w-64 flex-col gap-5 text-white items-center justify-center'>
             <div className='w-full'>
@@ -78,6 +126,7 @@ const Profile = () => {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 name="firstName"
+                error={formik.touched.firstName && formik.errors.firstName}
               />
             </div>
             <div className='w-full'>
@@ -89,6 +138,7 @@ const Profile = () => {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 name="lastName"
+                error={formik.touched.lastName && formik.errors.lastName}
               />
             </div>
             <div className='w-full flex gap-5'>
