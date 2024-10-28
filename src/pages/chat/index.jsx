@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
+import ChatsContainer from './components/chat-container';
+import EmptyContainer from './components/empty-container';
+import ContactsContainer from './components/contacts-container';
 
 const Chat = () => {
   const navigate = useNavigate();
@@ -18,10 +21,12 @@ const Chat = () => {
       navigate("/profile");
     }
   }, [isLogin, user, toastShown, navigate]);
-  
+
   return (
-    <div>
-      Chatttt
+    <div className='flex h-[100vh] text-white overflow-hidden'>
+      <ContactsContainer />
+      {/* <EmptyContainer /> */}
+      <ChatsContainer />
     </div>
   )
 }
