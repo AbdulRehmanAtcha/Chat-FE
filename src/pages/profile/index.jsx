@@ -1,4 +1,4 @@
-import { Avatar } from '@/components/ui/avatar';
+import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { colors, getColor } from '@/lib/utils';
 import React, { useEffect, useRef, useState } from 'react';
 import { IoArrowBack } from "react-icons/io5";
@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useFormik } from 'formik';
 import { profileSchema } from '@/schema';
-import { useUpdatePictureMutation, useUpdateProfileMutation } from '@/services/auth';
+import { useDeletePictureMutation, useUpdatePictureMutation, useUpdateProfileMutation } from '@/services/auth';
 import { toast } from 'sonner';
 import { loginHandler } from '@/lib/store/slices/auth';
 import { useNavigate } from 'react-router-dom';
@@ -18,7 +18,7 @@ const Profile = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [hovered, setHovered] = useState(false);
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState(user?.profileImg?.url ? user?.profileImg?.url : null);
   const [selectedColor, setSelectedColor] = useState(user?.color || 0);
   const fileInputRef = useRef(null)
 
@@ -29,7 +29,8 @@ const Profile = () => {
   };
 
   const [profile, { isSuccess, isError, error, isLoading, data }] = useUpdateProfileMutation()
-  const [imageUpdate, { }] = useUpdatePictureMutation()
+  const [imageUpdate, { isSuccess: updatePictureSuccess, isError: updatePictureIsError, data: updatePictureData, error: updatePictureError, isLoading: updatPictureLoading }] = useUpdatePictureMutation()
+  const [deletePicture, { isSuccess: deletePictureSucces, isError: deletePictureIsError, error: deletePictureError, data: deletePictureData, isLoading: deletePictureLoading }] = useDeletePictureMutation()
 
   const formik = useFormik({
     initialValues: initialValues,
@@ -47,10 +48,39 @@ const Profile = () => {
   }, [isSuccess, dispatch, data]);
 
   useEffect(() => {
+    if (updatePictureSuccess) {
+      toast.success(updatePictureData?.message);
+      setImage(updatePictureData?.data?.profileImg?.url)
+      dispatch(loginHandler({ ...user, profileImg: updatePictureData?.data?.profileImg }));
+    }
+  }, [updatePictureSuccess, updatePictureData]);
+
+  useEffect(() => {
+    if (deletePictureSucces) {
+      toast.success(deletePictureData?.message);
+      console.log(deletePictureData)
+      setImage(null)
+      dispatch(loginHandler({ ...user, profileImg: updatePictureData?.data?.profileImg }));
+    }
+  }, [deletePictureSucces, deletePictureData]);
+
+  useEffect(() => {
     if (isError) {
       toast.error(error?.data?.message)
     }
   }, [isError])
+
+  useEffect(() => {
+    if (updatePictureIsError) {
+      toast.error("Error in uploading picture")
+    }
+  }, [updatePictureIsError])
+
+  useEffect(() => {
+    if (deletePictureIsError) {
+      toast.error("Error in deleting picture")
+    }
+  }, [deletePictureIsError])
 
   const HandleNavigate = () => {
     if (user?.profileSetup) {
@@ -68,11 +98,13 @@ const Profile = () => {
   const HandleImageChange = async (event) => {
     const file = event.target.files[0];
     if (file) {
-      await imageUpdate({ image: file });
+      imageUpdate({ image: file });
     }
   };
-  
-  const HandleDeleteImage = async () => { }
+
+  const HandleDeleteImage = async () => {
+    deletePicture({ imgUrl: user.profileImg.public_id })
+  }
 
   return (
     <div className='bg-[#1b1c24] h-[100vh] flex justify-center items-center flex-col gap-10'>
@@ -86,15 +118,21 @@ const Profile = () => {
             onMouseLeave={() => setHovered(false)}
           >
             <Avatar className="h-32 w-32 md:w-48 md:h-48 rounded-full overflow-hidden">
-              {
-                image
-                  ? <AvatarImage src={image} alt="Profile" className="object-cover w-full h-full bg-black" />
-                  : (
-                    <div className={`h-32 w-32 md:w-48 md:h-48 text-5xl flex items-center justify-center rounded-full cursor-pointer ${getColor(selectedColor)}`}>
-                      {formik.values.firstName ? formik.values.firstName.slice(0, 1) : user?.firstName?.slice(0, 1)}
-                    </div>
-                  )
-              }
+              {updatPictureLoading || deletePictureLoading ? (
+                <div className="flex items-center justify-center w-full h-full text-lg font-medium text-gray-500">
+                  Loading...
+                </div>
+              ) : (
+                image ? (
+                  <AvatarImage src={image} alt="Profile" className="object-cover w-full h-full bg-black" />
+                ) : (
+                  <div
+                    className={`h-32 w-32 md:w-48 md:h-48 text-5xl flex items-center justify-center rounded-full cursor-pointer ${getColor(selectedColor)}`}
+                  >
+                    {formik.values.firstName ? formik.values.firstName.slice(0, 1) : user?.firstName?.slice(0, 1)}
+                  </div>
+                )
+              )}
             </Avatar>
             {
               hovered && (

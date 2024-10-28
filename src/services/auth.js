@@ -44,16 +44,29 @@ export const authApi = api.injectEndpoints({
         updatePicture: builder.mutation({
             query: ({ image }) => {
                 const formData = new FormData();
-                formData.append("profileImage", image)
+                formData.append("profileImg", image)
+                for (let [key, value] of formData.entries()) {
+                    console.log(key, value);
+                }
                 return ({
-                    url: "/update-picture",
+                    url: "/auth/update-picture",
                     method: "PUT",
                     body: formData
                 })
             }
-        })
+        }),
+        deletePicture: builder.mutation({
+            query: ({ imgUrl }) => {
+
+                return ({
+                    url: "/auth/remove-image",
+                    method: "DELETE",
+                    body: { imgUrl: imgUrl }
+                })
+            }
+        }),
     })
 })
 
 
-export const { useRegisterMutation, useLoginMutation, useVerifyMutation, useUpdateProfileMutation, useUpdatePictureMutation } = authApi
+export const { useRegisterMutation, useLoginMutation, useVerifyMutation, useUpdateProfileMutation, useUpdatePictureMutation, useDeletePictureMutation } = authApi
