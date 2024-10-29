@@ -17,9 +17,9 @@ const slice = createSlice({
       //   : action?.payload;
     },
     logout: (state) => {
-      // state.user = null;
-      // state.isLogin = false;
-      // localStorage.removeItem("token");
+      state.user = null;
+      state.isLogin = false;
+      localStorage.removeItem("token");
     },
   },
 });
