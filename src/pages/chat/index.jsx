@@ -8,10 +8,9 @@ import ContactsContainer from './components/contacts-container';
 
 const Chat = () => {
   const navigate = useNavigate();
-  useEffect(() => {
-    console.log("Chat")
-  }, [])
   const { isLogin, user } = useSelector((state) => state.auth);
+  const { selectedChatType } = useSelector((state) => state.chats);
+  console.log(selectedChatType)
 
   const [toastShown, setToastShown] = useState(false);
   useEffect(() => {
@@ -25,8 +24,13 @@ const Chat = () => {
   return (
     <div className='flex h-[100vh] text-white overflow-hidden'>
       <ContactsContainer />
-      {/* <EmptyContainer /> */}
-      {/* <ChatsContainer /> */}
+      {
+        selectedChatType === undefined || selectedChatType === null
+        ?
+        <EmptyContainer />
+        :
+        <ChatsContainer />
+      }
     </div>
   )
 }

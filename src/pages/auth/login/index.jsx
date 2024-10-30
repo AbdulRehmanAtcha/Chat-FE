@@ -29,7 +29,6 @@ const Login = () => {
             dispatch(loginHandler(data?.data))
             toast.success(data?.message)
             localStorage.setItem("token", data?.data?.token)
-            console.log(data?.data?.userResponse)
 
             if (data?.data?.userResponse) {
                 if (data?.data?.userResponse?.profileSetup === false) {

@@ -26,7 +26,6 @@ const Register = () => {
 
   useEffect(() => {
     if (isSuccess) {
-      console.log(data?.message)
       toast.success(data?.message)
       navigate("/login")
     }
@@ -34,7 +33,6 @@ const Register = () => {
 
   useEffect(() => {
     if (isError && error) {
-      console.log(error?.data?.message);
       toast.error(error?.data?.message ? error?.data?.message : "Something went wrong")
     }
   }, [isError])

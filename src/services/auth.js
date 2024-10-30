@@ -45,9 +45,6 @@ export const authApi = api.injectEndpoints({
             query: ({ image }) => {
                 const formData = new FormData();
                 formData.append("profileImg", image)
-                for (let [key, value] of formData.entries()) {
-                    console.log(key, value);
-                }
                 return ({
                     url: "/auth/update-picture",
                     method: "PUT",
