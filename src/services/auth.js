@@ -10,6 +10,7 @@ export const authApi = api.injectEndpoints({
                 return ({
                     url: "/auth/signup",
                     method: "POST",
+                    credentials: "include",
                     body: { email, password }
                 })
             }
@@ -22,6 +23,7 @@ export const authApi = api.injectEndpoints({
                 return ({
                     url: "/auth/login",
                     method: "POST",
+                    credentials: "include",
                     body: { email, password }
                 })
             }
@@ -29,6 +31,7 @@ export const authApi = api.injectEndpoints({
         verify: builder.mutation({
             query: () => ({
                 url: '/auth/verify',
+                credentials: "include",
                 method: 'GET',
             }),
         }),
@@ -37,6 +40,7 @@ export const authApi = api.injectEndpoints({
                 return ({
                     url: "/auth/update-profile",
                     method: "PUT",
+                    credentials: "include",
                     body: { firstName, lastName, color }
                 })
             }
@@ -48,6 +52,7 @@ export const authApi = api.injectEndpoints({
                 return ({
                     url: "/auth/update-picture",
                     method: "PUT",
+                    credentials: "include",
                     body: formData
                 })
             }
@@ -58,6 +63,7 @@ export const authApi = api.injectEndpoints({
                 return ({
                     url: "/auth/remove-image",
                     method: "DELETE",
+                    credentials: "include",
                     body: { imgUrl: imgUrl }
                 })
             }

@@ -9,7 +9,8 @@ export const contactApi = api.injectEndpoints({
                 return ({
                     url: "/contacts/search",
                     method: "POST",
-                    body: { searchTerm }
+                    body: { searchTerm },
+                    credentials: "include"
                 })
             }
         }),

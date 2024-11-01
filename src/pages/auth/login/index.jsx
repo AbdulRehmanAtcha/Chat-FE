@@ -26,9 +26,9 @@ const Login = () => {
 
     useEffect(() => {
         if (isSuccess) {
-            dispatch(loginHandler(data?.data))
+            dispatch(loginHandler(data?.data?.userResponse))
+            console.log(data)
             toast.success(data?.message)
-            localStorage.setItem("token", data?.data?.token)
 
             if (data?.data?.userResponse) {
                 if (data?.data?.userResponse?.profileSetup === false) {

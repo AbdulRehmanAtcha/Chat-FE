@@ -34,7 +34,6 @@ function App() {
 
   const { isLogin, user } = useSelector((state) => state.auth);
   const [loading, setLoading] = useState(true);
-  const token = window.localStorage.getItem("token");
   const [verifyToken, { data: userData, isLoading, isError }] = useVerifyMutation();
   const dispatch = useDispatch();
 
@@ -45,7 +44,6 @@ function App() {
         .then((data) => {
           dispatch(loginHandler(data?.data))
         }).catch(() => {
-          localStorage.removeItem('token');
         }).finally(() => {
           setLoading(false);
 
