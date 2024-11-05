@@ -10,7 +10,6 @@ const Chat = () => {
   const navigate = useNavigate();
   const { isLogin, user } = useSelector((state) => state.auth);
   const { selectedChatType } = useSelector((state) => state.chats);
-  console.log(selectedChatType)
 
   const [toastShown, setToastShown] = useState(false);
   useEffect(() => {

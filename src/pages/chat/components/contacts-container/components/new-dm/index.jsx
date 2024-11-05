@@ -99,7 +99,7 @@ const NewDm = () => {
                                                     <Avatar className="h-12 w-12 rounded-full overflow-hidden">
                                                         {
                                                             item?.profileImg?.url ? (
-                                                                <AvatarImage src={item?.profileImg?.url} alt="Profile" className="object-cover w-full h-full bg-black" />
+                                                                <AvatarImage src={item?.profileImg?.url} alt="Profile" className="object-cover w-full h-full bg-black rounded-full" />
                                                             ) : (
                                                                 <div
                                                                     className={`h-12 w-12 text-lg flex items-center justify-center rounded-full cursor-pointer ${getColor(item?.color)}`}

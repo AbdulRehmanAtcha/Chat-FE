@@ -25,10 +25,27 @@ const slice = createSlice({
             state.selectedChatData = null
             state.selectedChatMessages = []
         },
+        addMessage: (state, action) => {
+            if (state.selectedChatType !== null && (state.selectedChatData._id === action.payload.recipient._id || state.selectedChatData._id === action.payload.sender._id)) {
+                const recipient = state.selectedChatType === "channel"
+                    ? action.payload.recipient
+                    : action.payload.recipient._id;
+
+                const sender = state.selectedChatType === "channel"
+                    ? action.payload.sender
+                    : action.payload.sender._id;
+
+                state.selectedChatMessages.push({
+                    ...action.payload,
+                    recipient,
+                    sender
+                });
+            }
+        },
 
     }
 })
 
-export const { setSelectedChatData, setSelectedChatMessages, setSelectedChatType, closeChat } = slice.actions
+export const { setSelectedChatData, setSelectedChatMessages, setSelectedChatType, closeChat, addMessage } = slice.actions
 
 export default slice.reducer;
