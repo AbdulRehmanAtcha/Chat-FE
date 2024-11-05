@@ -12,7 +12,7 @@ const ChatHeader = () => {
 
     return (
         <div className='h-[10vh] border-2 border-[#2f303b] flex items-center justify-between '>
-            <div className='flex gap-5 items-center px-10 w-full justify-between'>
+            <div className='flex gap-5 items-center px-2 w-full justify-between sm:px-10'>
                 <div className='flex gap-3 justify-center items-center'>
                     <div className='w-12 h-12 relative'>
                         <Avatar className="h-12 w-12 rounded-full overflow-hidden">
