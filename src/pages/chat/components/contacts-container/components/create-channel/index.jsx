@@ -12,11 +12,14 @@ import { useGetAllContactsMutation } from '@/services/contacts'
 import { Button } from '@/components/ui/button'
 import MultipleSelector from '@/components/ui/multipleselect'
 import { useAddChannelMutation } from '@/services/channel'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { setChannels } from '@/lib/store/slices/chats'
 
 
 const CreateChannel = () => {
     const dispatch = useDispatch();
+    const { channels } = useSelector((state) => state.chats);
+
 
     const [openNewChannelModal, setOpenNewChannelModal] = useState(false);
     const [searchedContacts, setSearchedContacts] = useState([]);
@@ -43,16 +46,19 @@ const CreateChannel = () => {
     }
 
     useEffect(() => {
-        if (isSuccess) {
-            console.log(data)
+        if (createChannelSuccess) {
+            dispatch(setChannels(createChannelData?.data?.channel))
+            setChannelName("");
+            setSelectedContacts([]);
+            setOpenNewChannelModal(false)
         }
-    }, [isSuccess, data])
+    }, [createChannelSuccess, createChannelData])
 
     useEffect(() => {
-        if (isError) {
-            console.log(error)
+        if (createChannelIsError) {
+            console.log(createChannelError)
         }
-    }, [isError])
+    }, [createChannelIsError])
 
     if (isLoading) return <p>Loading...</p>;
     return (

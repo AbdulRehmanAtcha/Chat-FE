@@ -7,7 +7,6 @@ const initialState = {
     selectedChatMessages: [],
     dmContacts: [],
     channels: [],
-
 };
 
 const slice = createSlice({
@@ -49,7 +48,8 @@ const slice = createSlice({
             state.dmContacts = action.payload
         },
         setChannels: (state, action) => {
-            state.channels = action.payload
+            console.log(action.payload)
+            state.channels.push(action.payload)
         },
         addChannel: (state, action) => {
             const channel = action.payload;

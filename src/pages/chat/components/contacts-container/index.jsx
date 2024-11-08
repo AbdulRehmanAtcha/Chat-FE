@@ -11,7 +11,7 @@ import CreateChannel from './components/create-channel';
 
 const ContactsContainer = () => {
   const [getContacts, { isError, isSuccess, isLoading, error, data }] = useGetDmContactsMutation();
-  const { dmContacts } = useSelector((state) => state.chats)
+  const { dmContacts, channels } = useSelector((state) => state.chats)
   const dispatch = useDispatch()
   useEffect(() => {
     getContacts();
@@ -46,6 +46,9 @@ const ContactsContainer = () => {
         <div className='flex items-center justify-between pr-10'>
           <Title text={"Channels"} />
           <CreateChannel />
+        </div>
+        <div className='max-h-[38vh] overflow-y-auto scrollbar-hidden'>
+          <Contactlist contacts={channels} isChannel={true} />
         </div>
       </div>
       <ProfileInfo />
