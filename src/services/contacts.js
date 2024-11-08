@@ -19,6 +19,7 @@ export const contactApi = api.injectEndpoints({
                 url: '/contacts/get-contacts-dm',
                 credentials: "include",
                 method: 'GET',
+                refetchOnMountOrArgChange: true,
             }),
         }),
         getAllContacts: builder.mutation({

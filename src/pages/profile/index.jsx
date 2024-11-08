@@ -44,6 +44,7 @@ const Profile = () => {
     if (isSuccess) {
       dispatch(loginHandler(data?.data?.userResponse));
       toast.success(data?.message);
+      navigate("/chat")
     }
   }, [isSuccess, dispatch, data]);
 

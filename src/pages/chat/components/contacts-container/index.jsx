@@ -15,7 +15,15 @@ const ContactsContainer = () => {
   const dispatch = useDispatch()
   useEffect(() => {
     getContacts();
-  }, [])
+
+    // Set interval to refetch data every 5 minutes (300000ms)
+    const interval = setInterval(() => {
+      getContacts();
+    }, 10000);
+
+    // Cleanup interval on component unmount
+    return () => clearInterval(interval);
+  }, [getContacts]);
 
   useEffect(() => {
     if (isSuccess) {
