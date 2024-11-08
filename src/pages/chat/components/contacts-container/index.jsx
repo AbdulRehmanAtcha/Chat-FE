@@ -6,6 +6,7 @@ import { useGetDmContactsMutation } from '@/services/contacts';
 import { useDispatch, useSelector } from 'react-redux';
 import { setdmContacts } from '@/lib/store/slices/chats';
 import Contactlist from '@/components/ui/contactlist';
+import CreateChannel from './components/create-channel';
 
 
 const ContactsContainer = () => {
@@ -19,7 +20,7 @@ const ContactsContainer = () => {
   useEffect(() => {
     if (isSuccess) {
       dispatch(setdmContacts(data?.data?.contacts))
-      console.log(data?.data?.contacts)
+      // console.log(data?.data?.contacts)
     }
     if (isError) {
       console.log(error)
@@ -44,6 +45,7 @@ const ContactsContainer = () => {
       <div className='my-5'>
         <div className='flex items-center justify-between pr-10'>
           <Title text={"Channels"} />
+          <CreateChannel />
         </div>
       </div>
       <ProfileInfo />

@@ -21,7 +21,7 @@ const MessageContainer = () => {
     useEffect(() => {
         if (isSuccess) {
             dispatch(setSelectedChatMessages(data?.data?.messages))
-            console.log(data);
+            // console.log(data);
         } else if (isError) {
             console.log(error);
         }

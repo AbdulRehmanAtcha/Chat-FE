@@ -6,6 +6,8 @@ const initialState = {
     selectedChatData: null,
     selectedChatMessages: [],
     dmContacts: [],
+    channels: [],
+
 };
 
 const slice = createSlice({
@@ -45,11 +47,18 @@ const slice = createSlice({
         },
         setdmContacts: (state, action) => {
             state.dmContacts = action.payload
-        }
+        },
+        setChannels: (state, action) => {
+            state.channels = action.payload
+        },
+        addChannel: (state, action) => {
+            const channel = action.payload;
+            state.channels = [channel, ...state.channels];
+        },
 
     }
 })
 
-export const { setSelectedChatData, setSelectedChatMessages, setSelectedChatType, closeChat, addMessage, setdmContacts } = slice.actions
+export const { setSelectedChatData, setSelectedChatMessages, setSelectedChatType, closeChat, addMessage, setdmContacts, setChannels, addChannel } = slice.actions
 
 export default slice.reducer;

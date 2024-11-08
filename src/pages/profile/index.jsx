@@ -58,7 +58,7 @@ const Profile = () => {
   useEffect(() => {
     if (deletePictureSucces) {
       toast.success(deletePictureData?.message);
-      console.log(deletePictureData)
+      // console.log(deletePictureData)
       setImage(null)
       dispatch(loginHandler({ ...user, profileImg: updatePictureData?.data?.profileImg }));
     }

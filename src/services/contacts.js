@@ -21,8 +21,15 @@ export const contactApi = api.injectEndpoints({
                 method: 'GET',
             }),
         }),
+        getAllContacts: builder.mutation({
+            query: () => ({
+                url: '/contacts/get-all-contacts',
+                credentials: "include",
+                method: 'GET',
+            }),
+        }),
     })
 })
 
 
-export const { useSearchContactsMutation, useGetDmContactsMutation } = contactApi
+export const { useSearchContactsMutation, useGetDmContactsMutation, useGetAllContactsMutation } = contactApi

@@ -27,7 +27,7 @@ const Login = () => {
     useEffect(() => {
         if (isSuccess) {
             dispatch(loginHandler(data?.data?.userResponse))
-            console.log(data)
+            // console.log(data)
             toast.success(data?.message)
 
             if (data?.data?.userResponse) {
