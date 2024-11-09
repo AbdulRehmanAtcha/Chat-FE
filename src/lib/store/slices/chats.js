@@ -48,11 +48,11 @@ const slice = createSlice({
             state.dmContacts = action.payload
         },
         setChannels: (state, action) => {
-            console.log(action.payload)
-            state.channels.push(action.payload)
+            state.channels = action.payload;
         },
         addChannel: (state, action) => {
             const channel = action.payload;
+            console.log(channel)
             state.channels = [channel, ...state.channels];
         },
 

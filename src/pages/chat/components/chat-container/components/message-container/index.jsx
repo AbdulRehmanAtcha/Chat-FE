@@ -36,14 +36,15 @@ const MessageContainer = () => {
     const renderMessages = () => {
         let lastDate = null;
         return selectedChatMessages?.map((message, index) => {
-            const messageDate = moment(message?.timestamp).format("YYYY-MM-DD");
+            console.log(message)
+            const messageDate = moment(message?.createdAt).format("YYYY-MM-DD");
             const showDate = messageDate !== lastDate;
             lastDate = messageDate
             return (
                 <div key={index}>
                     {showDate && (
                         <div className='text-center text-gray-500 my-2'>
-                            {moment(message.timestamp).format("LL")}
+                            {moment(message.createdAt).format("LL")}
                         </div>
                     )}
                     {
@@ -70,7 +71,7 @@ const MessageContainer = () => {
                 </div>
             }
             <div className='text-xs text-gray-600'>
-                {moment(message?.timestamp).format("LT")}
+                {moment(message?.createdAt).format("LT")}
             </div>
         </div>
     )

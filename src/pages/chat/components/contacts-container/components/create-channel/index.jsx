@@ -13,7 +13,7 @@ import { Button } from '@/components/ui/button'
 import MultipleSelector from '@/components/ui/multipleselect'
 import { useAddChannelMutation } from '@/services/channel'
 import { useDispatch, useSelector } from 'react-redux'
-import { setChannels } from '@/lib/store/slices/chats'
+import { addChannel, setChannels } from '@/lib/store/slices/chats'
 
 
 const CreateChannel = () => {
@@ -27,7 +27,7 @@ const CreateChannel = () => {
     const [allContacts, setAllContacts] = useState([]);
     const [channelName, setChannelName] = useState("")
     const [fetching, { isError, isLoading, data, error, isSuccess }] = useGetAllContactsMutation()
-    const [addChannel, { data: createChannelData, isSuccess: createChannelSuccess, isError: createChannelIsError, error: createChannelError }] = useAddChannelMutation();
+    const [addChannelToDb, { data: createChannelData, isSuccess: createChannelSuccess, isError: createChannelIsError, error: createChannelError }] = useAddChannelMutation();
 
     useEffect(() => {
         fetching().unwrap()
@@ -41,13 +41,13 @@ const CreateChannel = () => {
 
     const CreateChannel = async () => {
         if (channelName !== "" && selectedContacts?.length > 0) {
-            await addChannel({ name: channelName, members: selectedContacts?.map((item) => item?.value) })
+            await addChannelToDb({ name: channelName, members: selectedContacts?.map((item) => item?.value) })
         }
     }
 
     useEffect(() => {
         if (createChannelSuccess) {
-            dispatch(setChannels(createChannelData?.data?.channel))
+            dispatch(addChannel(createChannelData?.data?.channel))
             setChannelName("");
             setSelectedContacts([]);
             setOpenNewChannelModal(false)

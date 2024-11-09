@@ -4,36 +4,46 @@ import ProfileInfo from './components/profile-info';
 import NewDm from './components/new-dm';
 import { useGetDmContactsMutation } from '@/services/contacts';
 import { useDispatch, useSelector } from 'react-redux';
-import { setdmContacts } from '@/lib/store/slices/chats';
+import { addChannel, setChannels, setdmContacts } from '@/lib/store/slices/chats';
 import Contactlist from '@/components/ui/contactlist';
 import CreateChannel from './components/create-channel';
+import { useGetUserChannelsMutation } from '@/services/channel';
 
 
 const ContactsContainer = () => {
   const [getContacts, { isError, isSuccess, isLoading, error, data }] = useGetDmContactsMutation();
+  const [getChannels, { data: channelsData, isSuccess: channelsSuccess, isError: channelsIsError, error: channelsEror }] = useGetUserChannelsMutation()
   const { dmContacts, channels } = useSelector((state) => state.chats)
   const dispatch = useDispatch()
   useEffect(() => {
     getContacts();
-
-    // Set interval to refetch data every 5 minutes (300000ms)
+    getChannels();
     const interval = setInterval(() => {
       getContacts();
+      getChannels();
     }, 10000);
 
-    // Cleanup interval on component unmount
     return () => clearInterval(interval);
-  }, [getContacts]);
+  }, [getContacts, getChannels]);
 
   useEffect(() => {
     if (isSuccess) {
       dispatch(setdmContacts(data?.data?.contacts))
-      // console.log(data?.data?.contacts)
     }
     if (isError) {
       console.log(error)
     }
   }, [isError, isSuccess])
+
+  useEffect(() => {
+    if (channelsSuccess) {
+      console.log(channelsData?.data?.channel)
+      dispatch(setChannels(channelsData?.data?.channel))
+    }
+    if (channelsIsError) {
+      console.log(channelsEror)
+    }
+  }, [channelsIsError, channelsSuccess])
   return (
     <div className='relative md:w-[35vw] lg:w-[30vw] xl:w-[20vw] bg-[#1b1c24] border-r-2 border-[#2f303b] w-full'>
       <div className='pt-6 flex items-center pl-10 gap-x-2'>

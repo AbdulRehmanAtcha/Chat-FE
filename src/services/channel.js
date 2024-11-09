@@ -14,7 +14,15 @@ export const channelApi = api.injectEndpoints({
                 })
             }
         }),
+        getUserChannels: builder.mutation({
+            query: () => ({
+                url: '/channel/user-channels',
+                credentials: "include",
+                method: 'GET',
+                refetchOnMountOrArgChange: true,
+            }),
+        }),
     })
 })
 
-export const { useAddChannelMutation} = channelApi
+export const { useAddChannelMutation, useGetUserChannelsMutation } = channelApi
