@@ -68,8 +68,18 @@ export const authApi = api.injectEndpoints({
                 })
             }
         }),
+        logout: builder.mutation({
+            query: () => {
+
+                return ({
+                    url: "/auth/logout",
+                    method: "PUT",
+                    credentials: "include",
+                })
+            }
+        }),
     })
 })
 
 
-export const { useRegisterMutation, useLoginMutation, useVerifyMutation, useUpdateProfileMutation, useUpdatePictureMutation, useDeletePictureMutation } = authApi
+export const { useRegisterMutation, useLoginMutation, useVerifyMutation, useUpdateProfileMutation, useUpdatePictureMutation, useDeletePictureMutation, useLogoutMutation } = authApi

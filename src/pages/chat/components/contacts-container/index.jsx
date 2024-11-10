@@ -37,7 +37,7 @@ const ContactsContainer = () => {
 
   useEffect(() => {
     if (channelsSuccess) {
-      console.log(channelsData?.data?.channel)
+      // console.log(channelsData?.data?.channel)
       dispatch(setChannels(channelsData?.data?.channel))
     }
     if (channelsIsError) {

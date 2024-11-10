@@ -1,4 +1,4 @@
-import { addMessage } from "@/lib/store/slices/chats";
+import { addChannelInChannelList, addContactInDmList, addMessage } from "@/lib/store/slices/chats";
 import { createContext, useContext, useEffect, useRef } from "react"
 import { useDispatch, useSelector } from "react-redux";
 import { io } from "socket.io-client";
@@ -19,7 +19,7 @@ export const SocketProvider = ({ children }) => {
 
     useEffect(() => {
         if (user) {
-            console.log("Connecting with user ID:", user?._id); // Log the user ID
+            console.log("Connecting with user ID:"); // Log the user ID
             socket.current = io("http://localhost:3000", {
                 withCredentials: true,
                 query: { userId: user?._id }
@@ -31,11 +31,18 @@ export const SocketProvider = ({ children }) => {
 
 
             const hanldeRecieveMessage = (message) => {
-                console.log("message Received", message)
+                // console.log("message Received", message)
                 dispatch(addMessage(message))
+                dispatch(addContactInDmList(message))
+            }
+
+            const hanldeRecieveChannelMessage = (message) => {
+                dispatch(addMessage(message))
+                dispatch(addChannelInChannelList(message))
             }
 
             socket.current.on("recieveMessage", hanldeRecieveMessage)
+            socket.current.on("recieve-channel-message", hanldeRecieveChannelMessage)
 
             return () => {
                 socket.current.disconnect();

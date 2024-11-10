@@ -21,8 +21,18 @@ const MessageBar = () => {
                 messageType: "text",
                 fileUrl: undefined
             })
-            setMessage("")
         }
+
+        else if (selectedChatType === "channel") {
+            socket.emit("send-channel-message", {
+                sender: user?._id,
+                content: message,
+                channelId: selectedChatData?._id,
+                messageType: "text",
+                fileUrl: undefined
+            })
+        }
+        setMessage("")
     }
 
     const emojiRef = useRef();

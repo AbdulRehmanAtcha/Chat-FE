@@ -4,6 +4,8 @@ const initialState = {
   user: null,
   isLogin: false,
 };
+// authSlice.js
+export const selectUser = (state) => state.auth.user;
 
 const slice = createSlice({
   name: "auth",
@@ -12,14 +14,12 @@ const slice = createSlice({
     loginHandler: (state, action) => {
       state.isLogin = true;
       state.user = action.payload.userResponse
-      // state.user = action?.payload?.data
-      //   ? action?.payload?.data
-      //   : action?.payload;
     },
     logout: (state) => {
       state.user = null;
       state.isLogin = false;
     },
+
   },
 });
 

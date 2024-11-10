@@ -14,8 +14,17 @@ export const messageApi = api.injectEndpoints({
                 })
             }
         }),
+        getChannelMessages: builder.mutation({
+            query: ({ channelId }) => {
+                return {
+                    url: `/channel/channel-messages?channelId=${channelId}`, // Append query parameter directly to URL
+                    method: "GET",
+                    credentials: "include"
+                };
+            }
+        }),
     })
 })
 
 
-export const { useGetMessagesMutation } = messageApi
+export const { useGetMessagesMutation, useGetChannelMessagesMutation } = messageApi
