@@ -136,8 +136,8 @@ const NewDm = () => {
                             />
                             <div className='text-opacity-80 text-white flex flex-col gap-5 items-center mt-10 lg:text-2xl text-xl transition-all duration-300 text-center'>
                                 <h3 >
-                                    Hi<span className='text-purple-500'>!</span> {debouncedSearch !== "" ? "No Conatct" : "Search New"}
-                                    <span className='text-purple-500 '> {debouncedSearch !== "" ? "Found" : "Contact"}</span>
+                                    Hi<span className='text-purple-500'>!</span> Search New
+                                    <span className='text-purple-500 '> Contact</span>
                                 </h3>
                             </div>
                         </div>

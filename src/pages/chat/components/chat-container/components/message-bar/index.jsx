@@ -64,9 +64,9 @@ const MessageBar = () => {
                     onChange={(e) => setMessage(e.target.value)}
                     value={message}
                 />
-                <button className="text-neutral-500 focus:border-none focus:outline-none focus:text-white duration-300 transition-all bg-transparent">
+                {/* <button className="text-neutral-500 focus:border-none focus:outline-none focus:text-white duration-300 transition-all bg-transparent">
                     <GrAttachment className='text-xl' />
-                </button>
+                </button> */}
                 <div className='relative'>
                     <button
                         className="text-neutral-500 focus:border-none focus:outline-none focus:text-white duration-300 transition-all bg-transparent pt-1 sm:pt-2"

@@ -26,20 +26,18 @@ const Login = () => {
 
     useEffect(() => {
         if (isSuccess) {
-            dispatch(loginHandler(data?.data?.userResponse))
-            // console.log(data)
-            toast.success(data?.message)
-
-            if (data?.data?.userResponse) {
-                if (data?.data?.userResponse?.profileSetup === false) {
-                    navigate("/profile")
-                }
-                else if (data?.data?.userResponse?.profileSetup === true) {
-                    navigate("/chat")
-                }
+          dispatch(loginHandler(data?.data?.userResponse));
+          toast.success(data?.message);
+      
+          if (data?.data?.userResponse) {
+            if (data?.data?.userResponse?.profileSetup === false) {
+              navigate("/profile");
+            } else if (data?.data?.userResponse?.profileSetup === true) {
+              navigate("/chat");
             }
+          }
         }
-    }, [isSuccess])
+      }, [isSuccess, data, dispatch, navigate]);      
 
     useEffect(() => {
         if (isError && error) {
@@ -90,8 +88,10 @@ const Login = () => {
                                 />
                             </div>
                             <div className='w-[96%] md:w-[60%] 2xl:w-[40%]'>
-                                <Button type="submit" className={"w-full h-[72px] text-base bg-[#222227]"}>
-                                    Proceed to my Account
+                                <Button type="submit" className={"w-full h-[72px] text-base bg-[#222227]"} disabled={isLoading}>
+                                    {/* Proceed to my Account */}
+                                    {/* <span class="btn-loader"></span> */}
+                                    {isLoading ? <span class="btn-loader"></span> : "Proceed to my Account"}
                                 </Button>
                             </div>
                         </Form>

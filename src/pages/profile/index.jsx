@@ -121,7 +121,7 @@ const Profile = () => {
             <Avatar className="h-32 w-32 md:w-48 md:h-48 rounded-full overflow-hidden">
               {updatPictureLoading || deletePictureLoading ? (
                 <div className="flex items-center justify-center w-full h-full text-lg font-medium text-gray-500">
-                  Loading...
+                  <span class="btn-loader"></span>
                 </div>
               ) : (
                 image ? (
@@ -197,8 +197,9 @@ const Profile = () => {
           </div>
         </div>
         <div className='w-full'>
-          <Button className={"w-full bg-purple-700 hover:bg-purple-900"} type="submit">
-            Save Changes
+          <Button className={"w-full bg-purple-700 hover:bg-purple-900"} type="submit" disabled={isLoading}>
+            {/* Save Changes */}
+            {isLoading ? <span class="btn-loader"></span> : "Save Changes"}
           </Button>
         </div>
       </form>

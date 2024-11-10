@@ -105,8 +105,10 @@ const Register = () => {
                 <Button
                   type="submit"  // Ensure this button is a submit button
                   className={"w-full h-[72px] text-base bg-[#222227]"}
+                  disabled={isLoading}
                 >
-                  Register My Account
+                  {/* Register My Account */}
+                  {isLoading ? <span class="btn-loader"></span> : "Register My Account"}
                 </Button>
               </div>
             </Form>

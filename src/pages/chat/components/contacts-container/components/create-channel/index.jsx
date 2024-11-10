@@ -27,7 +27,7 @@ const CreateChannel = () => {
     const [allContacts, setAllContacts] = useState([]);
     const [channelName, setChannelName] = useState("")
     const [fetching, { isError, isLoading, data, error, isSuccess }] = useGetAllContactsMutation()
-    const [addChannelToDb, { data: createChannelData, isSuccess: createChannelSuccess, isError: createChannelIsError, error: createChannelError }] = useAddChannelMutation();
+    const [addChannelToDb, { data: createChannelData, isSuccess: createChannelSuccess, isError: createChannelIsError, error: createChannelError, isLoading: addChannelLoading }] = useAddChannelMutation();
 
     useEffect(() => {
         fetching().unwrap()
@@ -60,7 +60,7 @@ const CreateChannel = () => {
         }
     }, [createChannelIsError])
 
-    if (isLoading) return <p>Loading...</p>;
+    if (isLoading) return <span class="btn-loader"></span>;
     return (
         <div>
             <TooltipProvider>
@@ -100,7 +100,7 @@ const CreateChannel = () => {
                         <Button className="w-full bg-purple-700 hover:bg-purple-900 transition-all duration-300"
                             onClick={CreateChannel}
                         >
-                            Create Channel
+                            {addChannelLoading ? <span class="btn-loader"></span> : "Create Channel"}
                         </Button>
                     </div>
                 </DialogContent>

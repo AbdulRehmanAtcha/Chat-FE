@@ -10,8 +10,8 @@ const MessageContainer = () => {
     const scrollRef = useRef()
     const { selectedChatType, selectedChatData, selectedChatMessages } = useSelector((state) => state.chats);
     const { user } = useSelector((state) => state.auth);
-    const [getUserMessages, { data, isSuccess, isError, error }] = useGetMessagesMutation();
-    const [getChannelMessages, { data: channelData, isSuccess: isChannelSuccess, isError: isChannelError, error: channelError }] = useGetChannelMessagesMutation();
+    const [getUserMessages, { data, isSuccess, isError, error, isLoading }] = useGetMessagesMutation();
+    const [getChannelMessages, { data: channelData, isSuccess: isChannelSuccess, isError: isChannelError, error: channelError, isLoading: channelLoading }] = useGetChannelMessagesMutation();
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -157,7 +157,14 @@ const MessageContainer = () => {
 
     return (
         <div className='flex-1 overflow-y-auto scrollbar-hidden p-4 px-8 md:w-[65vw] lg:w-[70vw] xl:w-[80vw] w-full'>
-            {renderMessages()}
+            {/* Show loader if any of the messages are loading */}
+            {(isLoading || channelLoading) ? (
+                <div className="flex items-center justify-center w-full h-full">
+                    <span class="btn-loader"></span>
+                </div>
+            ) : (
+                renderMessages()
+            )}
             <div ref={scrollRef} />
         </div>
     )

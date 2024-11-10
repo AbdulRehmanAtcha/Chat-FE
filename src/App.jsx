@@ -52,49 +52,57 @@ function App() {
   }, [user, verifyToken, dispatch]);
 
   if (loading) {
-    return <h1>Loading....</h1>
+    return <div className='w-full h-screen bg-[#282937] flex justify-center items-center'>
+      <span class="btn-loader"></span>
+    </div>
   }
 
   return (
     <BrowserRouter>
       <Routes>
-        <Route path='/'
+        <Route
+          path="/"
           element={
             <AuthRoutes>
               <Login />
             </AuthRoutes>
           }
         />
-        <Route path='/register'
+        <Route
+          path="/register"
           element={
             <AuthRoutes>
               <Register />
             </AuthRoutes>
           }
         />
-        <Route path='/login'
+        <Route
+          path="/login"
           element={
             <AuthRoutes>
               <Login />
             </AuthRoutes>
           }
         />
-        <Route path='/chat'
+        <Route
+          path="/chat"
           element={
             <PrivateRoutes>
-              <Chat />
+              {user?.profileSetup === false ? <Navigate to="/profile" /> : <Chat />}
             </PrivateRoutes>
           }
         />
-        <Route path='/profile'
+        <Route
+          path="/profile"
           element={
             <PrivateRoutes>
               <Profile />
             </PrivateRoutes>
           }
         />
-        <Route path='*' element={<Navigate to="/login" />} />
+        <Route path="*" element={<Navigate to="/login" />} />
       </Routes>
+
     </BrowserRouter>
   )
 }
