@@ -24,6 +24,9 @@ export const SocketProvider = ({ children }) => {
                 withCredentials: true,
                 query: { userId: user?._id },
                 transports: ['websocket'],
+                secure: true, 
+                reconnectionAttempts: 5,
+                timeout: 10000
             });
             socket.current.on("connect", () => {
                 console.log("Connected to socket server from client");
