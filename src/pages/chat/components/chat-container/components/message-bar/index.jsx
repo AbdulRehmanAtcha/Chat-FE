@@ -54,7 +54,7 @@ const MessageBar = () => {
         }
     }, [emojiRef])
     return (
-        <div className='min-h-[10vh] bg-[#1c1d25] flex flex-col sm:flex-row justify-center items-center px-4 sm:px-8 mb-5 gap-4 sm:gap-6'>
+        <div className='min-h-[10vh] bg-[#1c1d25] flex flex-col sm:flex-row justify-center items-center px-4 sm:px-8 mb-[120px] sm:mb-5 gap-4 sm:gap-6'>
             <div className='flex-1 flex bg-[#282b33] rounded-md items-center gap-3 sm:gap-5 px-3 sm:pr-5 w-[95vw] sm:w-auto'>
                 <input
                     type="text"
