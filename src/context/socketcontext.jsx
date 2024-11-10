@@ -20,7 +20,7 @@ export const SocketProvider = ({ children }) => {
     useEffect(() => {
         if (user) {
             console.log("Connecting with user ID:"); // Log the user ID
-            socket.current = io("http://localhost:3000", {
+            socket.current = io(process.env.NEXT_PUBLIC_SOCKET_URL || "http://localhost:3000", {
                 withCredentials: true,
                 query: { userId: user?._id }
             });
@@ -31,7 +31,6 @@ export const SocketProvider = ({ children }) => {
 
 
             const hanldeRecieveMessage = (message) => {
-                // console.log("message Received", message)
                 dispatch(addMessage(message))
                 dispatch(addContactInDmList(message))
             }
