@@ -31,7 +31,6 @@ const AuthRoutes = ({ children }) => {
 
 
 function App() {
-
   const { isLogin, user } = useSelector((state) => state.auth);
   const [loading, setLoading] = useState(true);
   const [verifyToken, { data: userData, isLoading, isError }] = useVerifyMutation();
@@ -42,19 +41,25 @@ function App() {
       verifyToken()
         .unwrap()
         .then((data) => {
-          dispatch(loginHandler(data?.data))
-        }).catch(() => {
-        }).finally(() => {
+          dispatch(loginHandler(data?.data));
+        })
+        .catch(() => {
+          // Optional error handling here if needed
+        })
+        .finally(() => {
           setLoading(false);
-
         });
+    } else {
+      setLoading(false); // If user is already available, no need to verify token
     }
   }, [user, verifyToken, dispatch]);
 
   if (loading) {
-    return <div className='w-full h-screen bg-[#282937] flex justify-center items-center'>
-      <span class="btn-loader"></span>
-    </div>
+    return (
+      <div className='w-full h-screen bg-[#282937] flex justify-center items-center'>
+        <span className="btn-loader"></span>
+      </div>
+    );
   }
 
   return (
@@ -102,9 +107,9 @@ function App() {
         />
         <Route path="*" element={<Navigate to="/login" />} />
       </Routes>
-
     </BrowserRouter>
-  )
+  );
 }
+
 
 export default App
