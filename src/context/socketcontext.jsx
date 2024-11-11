@@ -20,11 +20,14 @@ export const SocketProvider = ({ children }) => {
 
     useEffect(() => {
         if (user) {
-            console.log("Connecting with user ID:"); // Log the user ID
-            socket.current = io(import.meta.env.VITE_SOCKET_URL || "http://localhost:3000", {
+            console.log("Connecting with user ID:",user); // Log the user ID
+            socket.current = io(
+                import.meta.env.VITE_SOCKET_URL
+                ||
+                "http://localhost:3000", {
                 withCredentials: true,
                 query: { userId: user?._id },
-                transports: ['websocket'],
+                transports: ['websocket','polling'],
                 secure: true,
                 reconnectionAttempts: 5,
                 timeout: 10000
