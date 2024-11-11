@@ -13,7 +13,8 @@ const slice = createSlice({
   reducers: {
     loginHandler: (state, action) => {
       state.isLogin = true;
-      state.user = action.payload.userResponse
+      state.user = action.payload.userResponse,
+        window.localStorage.setItem("token", action.payload.userResponse?.token)
     },
     logout: (state) => {
       state.user = null;
