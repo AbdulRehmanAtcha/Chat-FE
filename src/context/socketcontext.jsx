@@ -16,15 +16,16 @@ export const SocketProvider = ({ children }) => {
     const { user } = useSelector((state) => state.auth);
     const dispatch = useDispatch();
     const { selectedChatType, selectedChatData } = useSelector((state) => state.chats);
+    console.log(import.meta.env.VITE_SOCKET_URL)
 
     useEffect(() => {
         if (user) {
             console.log("Connecting with user ID:"); // Log the user ID
-            socket.current = io(import.meta.env.NEXT_PUBLIC_SOCKET_URL || "http://localhost:3000", {
+            socket.current = io(import.meta.env.VITE_SOCKET_URL || "http://localhost:3000", {
                 withCredentials: true,
                 query: { userId: user?._id },
                 transports: ['websocket'],
-                secure: true, 
+                secure: true,
                 reconnectionAttempts: 5,
                 timeout: 10000
             });
