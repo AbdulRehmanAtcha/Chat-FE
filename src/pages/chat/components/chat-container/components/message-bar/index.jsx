@@ -53,6 +53,13 @@ const MessageBar = () => {
             document.removeEventListener("mousedown", handleOutsideClick)
         }
     }, [emojiRef])
+
+    const handleKeyDown = (event) => {
+        if (event.key === 'Enter' && !event.shiftKey) {
+            event.preventDefault();
+            HandleSendMessage();
+        }
+    };
     return (
         <div className='min-h-[10vh] bg-[#1c1d25] flex flex-col sm:flex-row justify-center items-center px-4 sm:px-8 mb-[120px] sm:mb-5 gap-4 sm:gap-6'>
             <div className='flex-1 flex bg-[#282b33] rounded-md items-center gap-3 sm:gap-5 px-3 sm:pr-5 w-[95vw] sm:w-auto'>
@@ -63,6 +70,7 @@ const MessageBar = () => {
                     name='message'
                     onChange={(e) => setMessage(e.target.value)}
                     value={message}
+                    onKeyDown={handleKeyDown}
                 />
                 {/* <button className="text-neutral-500 focus:border-none focus:outline-none focus:text-white duration-300 transition-all bg-transparent">
                     <GrAttachment className='text-xl' />
