@@ -28,6 +28,7 @@ const ProfileInfo = () => {
     useEffect(() => {
         if (isSuccess) {
             dispatch(logout());
+            localStorage.removeItem("token")
             navigate("/login");
         }
         if (isError) {

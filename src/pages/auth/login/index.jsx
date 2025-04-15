@@ -26,18 +26,19 @@ const Login = () => {
 
     useEffect(() => {
         if (isSuccess) {
-          dispatch(loginHandler(data?.data?.userResponse));
-          toast.success(data?.message);
-      
-          if (data?.data?.userResponse) {
-            if (data?.data?.userResponse?.profileSetup === false) {
-              navigate("/profile");
-            } else if (data?.data?.userResponse?.profileSetup === true) {
-              navigate("/chat");
+            dispatch(loginHandler(data?.data?.userResponse));
+            toast.success(data?.message);
+            localStorage.setItem("token", data?.data?.userResponse?.token)
+
+            if (data?.data?.userResponse) {
+                if (data?.data?.userResponse?.profileSetup === false) {
+                    navigate("/profile");
+                } else if (data?.data?.userResponse?.profileSetup === true) {
+                    navigate("/chat");
+                }
             }
-          }
         }
-      }, [isSuccess, data, dispatch, navigate]);      
+    }, [isSuccess, data, dispatch, navigate]);
 
     useEffect(() => {
         if (isError && error) {
